@@ -1,30 +1,30 @@
-resource "aws_security_group" "aurora-mysql" {
-  name        = "hirokihello-${var.stage}-aurora-mysql"
-  description = "hirokihello-${var.stage}-aurora-mysql"
-  vpc_id      = aws_vpc.hirokihello.id
+# resource "aws_security_group" "aurora-mysql" {
+#   name        = "hirokihello-${var.stage}-aurora-mysql"
+#   description = "hirokihello-${var.stage}-aurora-mysql"
+#   vpc_id      = aws_vpc.hirokihello.id
 
-  tags = {
-    Name = "hirokihello-${var.stage}-aurora-mysql"
-  }
-}
+#   tags = {
+#     Name = "hirokihello-${var.stage}-aurora-mysql"
+#   }
+# }
 
-resource "aws_security_group_rule" "aurora-mysql-ingress" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  cidr_blocks       = [aws_vpc.hirokihello.cidr_block,]
-  security_group_id = aws_security_group.aurora-mysql.id
-}
+# resource "aws_security_group_rule" "aurora-mysql-ingress" {
+#   type              = "ingress"
+#   from_port         = 3306
+#   to_port           = 3306
+#   protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.hirokihello.cidr_block,]
+#   security_group_id = aws_security_group.aurora-mysql.id
+# }
 
-resource "aws_security_group_rule" "aurora-mysql-egress" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.aurora-mysql.id
-}
+# resource "aws_security_group_rule" "aurora-mysql-egress" {
+#   type              = "egress"
+#   from_port         = 0
+#   to_port           = 0
+#   protocol          = "-1"
+#   cidr_blocks       = ["0.0.0.0/0"]
+#   security_group_id = aws_security_group.aurora-mysql.id
+# }
 
 # resource "aws_security_group" "redis" {
 #   name        = "hirokihello-${var.stage}-redis"
