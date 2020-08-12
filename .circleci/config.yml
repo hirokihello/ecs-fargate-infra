@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    environment:
+      TERRAFORM_VERSION: 0.12.4
+    docker:
+      - image: alpine:3.7
+    working_directory: /root/terraform
+    steps:
+      - run:
+          name: Install tools
+          command: |
+            apk --no-cache add --virtual .rundeps ca-certificates curl git python py-pip bash jq nodejs nodejs-npm zip
+            npm config set unsafe-perm true
+            pip install --upgrade --no-cache-dir awscli
+            npm i -g --unsafe-perm dotenv-export
+            if [[ ! -s /opt/terraform ]]; then mkdir -p /opt/terraform && cd /opt/terraform && curl -O -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip; fi
+      - checkout
+      - run:
+          name: terraform
+          command: |
+            /opt/terraform/terraform init
+            /opt/terraform/terraform plan
+            if [ "${CIRCLE_BRANCH}" == "terraform-staging" ]; then
+              /opt/terraform/terraform apply -auto-approve
+            fi
+            if [ "${CIRCLE_BRANCH}" == "terraform-production" ]; then
+              /opt/terraform/terraform apply -auto-approve
+            fi

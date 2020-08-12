@@ -1,0 +1,16 @@
+{
+  "rules": [
+    {
+      "rulePriority": 10,
+      "description": "Delete images when count is more than 300",
+      "selection": {
+        "tagStatus": "any",
+        "countType": "imageCountMoreThan",
+        "countNumber": 300
+      },
+      "action": {
+        "type": "expire"
+      }
+    }
+  ]
+}
