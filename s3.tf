@@ -10,13 +10,12 @@ resource "aws_s3_bucket" "hirokihello_front" {
   }
 }
 
-# とりあえずガバガバで実装
 resource "aws_s3_bucket_public_access_block" "hirokihello_front" {
   bucket = aws_s3_bucket.hirokihello_front.id
   block_public_acls = false
-  block_public_policy = true
+  block_public_policy = false
   ignore_public_acls = false
-  restrict_public_buckets = true
+  restrict_public_buckets = false
 }
 
 data "aws_iam_policy_document" "s3_policy" {
